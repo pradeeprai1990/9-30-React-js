@@ -52,10 +52,15 @@ export default function Home() {
                 <h2 className='text-center font-bold text-3xl mb-4'>FAQ</h2>
                 {
                 questions.map((items) => {
+            
                     return (
                         
                         <div className='border-1 mb-3'>
-                            <h2 onClick={()=>setCurrentQuestionId(items.id)} className='cursor-pointer relative bg-amber-700 font-bold text-[20px] text-white p-3'>
+                            <h2
+                             onClick={()=>setCurrentQuestionId(currentQuestionId ? 0 : items.id)}
+                             
+                             
+                             className='cursor-pointer relative bg-amber-700 font-bold text-[20px] text-white p-3'>
                                 
                                 
                                  {items.question} 
