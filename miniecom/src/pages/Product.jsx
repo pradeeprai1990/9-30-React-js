@@ -10,7 +10,9 @@ export default function Product() {
 
     let [dropdown, setDropdown] = useState(false)
     let [sorting,setSorting]=useState(null)
-
+    let [caregoryfillter,setCaregoryfillter]=useState([])
+    let [brandfillter,setBrandfillter]=useState([])
+    let [isLoading,setisLoading]=useState(false)
 
 
 
@@ -39,12 +41,15 @@ export default function Product() {
     }
 
     let getProducts = () => {
+        console.log(caregoryfillter)
+        setisLoading(true)
+
         axios.get('https://wscubetech.co/ecommerce-api/products.php', {
             params: {
                 page: 1,
                 limit: 20,
-                categories: '',
-                brands: '',
+                categories: caregoryfillter.join(","),
+                brands: brandfillter.join(","), //["ram","ravi","raj"]
                 price_from: '',
                 price_to: '',
                 discount_from: '',
@@ -56,9 +61,53 @@ export default function Product() {
             .then((axiosRes) => axiosRes.data)
             .then((finalRes) => {
                 setProducts(finalRes.data)
+                setisLoading(false)
 
             })
     }
+
+
+   
+    let getmyCheckCategory=(event)=>{
+
+      if(event.target.checked){
+        if(!caregoryfillter.includes(event.target.value)){
+            setCaregoryfillter([...caregoryfillter,event.target.value])
+        }
+      } 
+      else{
+        //event.target.value == beauty 
+        let finalData=caregoryfillter.filter((v)=>v!=event.target.value)
+        setCaregoryfillter(finalData)
+       
+      } 
+       
+        
+    }
+
+
+    let getmyCheckBrand=(event)=>{
+
+        if(event.target.checked){
+          if(!brandfillter.includes(event.target.value)){
+              setBrandfillter([...brandfillter,event.target.value])
+          }
+        } 
+        else{
+          //event.target.value == beauty 
+          let finalData=brandfillter.filter((v)=>v!=event.target.value)
+          setBrandfillter(finalData)
+         
+        } 
+         
+          
+      }
+
+//    let l=["ravi","raj","pradeep"]
+
+//   let finalAns= l.filter((v)=>v!="raj")
+
+  //finalAns ["ravi","pradeep"]
 
     useEffect(() => {
         getCategories()
@@ -70,7 +119,7 @@ export default function Product() {
 
     useEffect(() => {
         getProducts()
-    }, [sorting])
+    }, [sorting,caregoryfillter,brandfillter])
 
 
 
@@ -83,8 +132,10 @@ export default function Product() {
 
                     <ul>
                         {category.map((items, index) => {
-                            return (
-                                <li className='p-2'> <input type="checkbox" />  {items.name} </li>
+                            return (    
+                                <li className='p-2'> 
+                                <input type="checkbox" onChange={getmyCheckCategory} value={items.slug} /> 
+                                 {items.name} </li>
                             )
                         })}
 
@@ -99,7 +150,8 @@ export default function Product() {
                         <ul>
                             {brand.map((items, index) => {
                                 return (
-                                    <li className='p-2'> <input type="checkbox" />  {items.name} </li>
+                                    <li className='p-2'> 
+                                    <input type="checkbox" onChange={getmyCheckBrand} value={items.slug} />  {items.name} </li>
                                 )
                             })}
 
@@ -174,7 +226,76 @@ export default function Product() {
                 <div className='grid grid-cols-4 gap-5'>
 
 
-                    {products.map((items, index) => <ProductItems pdata={items} />)}
+                    {
+                     isLoading ?
+
+                    <>
+                        <div class="mx-auto w-full max-w-sm rounded-md border border-blue-300 p-4">
+                            <div class="flex animate-pulse space-x-4">
+                                <div class="size-10 rounded-full bg-gray-200"></div>
+                                <div class="flex-1 space-y-6 py-1">
+                                <div class="h-2 rounded bg-gray-200"></div>
+                                <div class="space-y-3">
+                                    <div class="grid grid-cols-3 gap-4">
+                                    <div class="col-span-2 h-2 rounded bg-gray-200"></div>
+                                    <div class="col-span-1 h-2 rounded bg-gray-200"></div>
+                                    </div>
+                                    <div class="h-2 rounded bg-gray-200"></div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mx-auto w-full max-w-sm rounded-md border border-blue-300 p-4">
+                            <div class="flex animate-pulse space-x-4">
+                                <div class="size-10 rounded-full bg-gray-200"></div>
+                                <div class="flex-1 space-y-6 py-1">
+                                <div class="h-2 rounded bg-gray-200"></div>
+                                <div class="space-y-3">
+                                    <div class="grid grid-cols-3 gap-4">
+                                    <div class="col-span-2 h-2 rounded bg-gray-200"></div>
+                                    <div class="col-span-1 h-2 rounded bg-gray-200"></div>
+                                    </div>
+                                    <div class="h-2 rounded bg-gray-200"></div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mx-auto w-full max-w-sm rounded-md border border-blue-300 p-4">
+                            <div class="flex animate-pulse space-x-4">
+                                <div class="size-10 rounded-full bg-gray-200"></div>
+                                <div class="flex-1 space-y-6 py-1">
+                                <div class="h-2 rounded bg-gray-200"></div>
+                                <div class="space-y-3">
+                                    <div class="grid grid-cols-3 gap-4">
+                                    <div class="col-span-2 h-2 rounded bg-gray-200"></div>
+                                    <div class="col-span-1 h-2 rounded bg-gray-200"></div>
+                                    </div>
+                                    <div class="h-2 rounded bg-gray-200"></div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mx-auto w-full max-w-sm rounded-md border border-blue-300 p-4">
+                            <div class="flex animate-pulse space-x-4">
+                                <div class="size-10 rounded-full bg-gray-200"></div>
+                                <div class="flex-1 space-y-6 py-1">
+                                <div class="h-2 rounded bg-gray-200"></div>
+                                <div class="space-y-3">
+                                    <div class="grid grid-cols-3 gap-4">
+                                    <div class="col-span-2 h-2 rounded bg-gray-200"></div>
+                                    <div class="col-span-1 h-2 rounded bg-gray-200"></div>
+                                    </div>
+                                    <div class="h-2 rounded bg-gray-200"></div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                    </>
+                   :
+
+                    products.map((items, index) => <ProductItems pdata={items} />)
+                    
+                    }
 
 
                 </div>
@@ -184,7 +305,7 @@ export default function Product() {
 }
 
 function ProductItems({ pdata }) {
-    console.log(pdata)
+   
     let { id, name, image,price } = pdata
     return (
         <div className='shadow-xl'>

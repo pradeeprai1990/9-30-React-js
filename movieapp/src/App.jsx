@@ -5,43 +5,52 @@ import './App.css'
 import axios from 'axios'
 
 function App() {
-  const [count1, setCount1] = useState(1)
-  const [count2, setCount2] = useState(1)
-  let a=10
+
+  let [title, setTitle]=useState('') //welcome back
+
   let [movies, setMovies]=useState([])
   let getMovies=()=>{
-    axios.get(`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=04c35731a5ee918f014970082a0088b1&page=1`)
+    let apiUrl;
+    if(title==''){
+      apiUrl=`https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=04c35731a5ee918f014970082a0088b1&page=1`
+    }
+    else{
+      apiUrl=`https://api.themoviedb.org/3/search/movie?&api_key=04c35731a5ee918f014970082a0088b1&query=${title}`
+    }
+    axios.get(apiUrl)
     .then((res)=>setMovies(res.data.results))
     
   }
   
  useEffect(()=>{
   getMovies()
- },[])
-// [] Blank Array-> getMovies() Run Once
+ },[title])
 
-//[count1] -> getMovies() Run when count1 changes
+
+ let getTextvalue=(event)=>{
+    setTitle(event.target.value) //welcome
+    //setTitle('welcome)
+ }
+
   return (
     <>
    
-      <button className='bg-white p-3 m-2' onClick={()=>setCount1(count1+1)}>Change Counter {count1}  </button>
-      <button  className='bg-white p-3 m-2' onClick={()=>setCount2(count2+1)}>Change Counter {count2} </button>
-
+    
       <h1 className='text-3xl text-center font-bold py-5 text-white'>Movie App</h1>
       <form action="" className='max-w-[1170px] mx-auto'>
-        <input type="text" className='p-4 h-[50px] rounded-[20px] border-2 w-[100%] text-white' placeholder='Enter Movie Title' />
+        <input onChange={getTextvalue}   type="text" className='p-4 h-[50px] rounded-[20px] border-2 w-[100%] text-white' placeholder='Enter Movie Title' />
       </form>
 
       <div className='max-w-[1320px] mt-5 mx-auto grid grid-cols-4 gap-5'>
         {
         movies.length>=1
         ?
-        movies.map((items)=> <MovieItems data={items}/> )
-           
+        movies.map((items,index)=> <MovieItems data={items} key={index}/> )
+            
         :
           <div className='text-center text-white'>
             <img src="https://media.tenor.com/1Y8jz3h3k1IAAAAC/loading.gif" alt="" />
-            <h1 className='text-2xl font-bold'>Loading...</h1>
+            <h1 className='text-2xl font-bold'>No Data Found</h1>
           </div>          
         }
         
