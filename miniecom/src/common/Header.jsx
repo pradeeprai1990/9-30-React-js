@@ -1,7 +1,21 @@
-import React from 'react'
-import { Link } from 'react-router'
+import React, { useContext, useEffect } from 'react'
+import { Link, useLocation } from 'react-router'
+import { counterContext } from '../MainContext'
 
 export default function Header() {
+    
+   let {cart} =useContext(counterContext) //Use
+
+
+    let {pathname}=useLocation() //Page 
+  
+
+    useEffect(()=>{
+        window.scrollTo({
+            top:"0",
+        })
+    },[pathname])
+
     return (
         <header className='shadow-lg'>
 
@@ -27,7 +41,7 @@ export default function Header() {
                             <Link to={'/product'} class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Product</Link>
                             </li>
                             <li>
-                                <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Cart</a>
+                                <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Cart ({cart.length}) </a>
                             </li>
                             <li>
                                 <a href="#" class="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Regsiter</a>

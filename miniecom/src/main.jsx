@@ -9,13 +9,18 @@ import Cart from './pages/Cart.jsx'
 import Product from './pages/Product.jsx'
 import ProductDetails from './pages/ProductDetails.jsx'
 import Login from './pages/Login.jsx'
+import About from './pages/About.jsx'
+import MainContext from './MainContext.jsx'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
+ 
+   <MainContext>
+
      <BrowserRouter>
         <Routes>
            <Route path='/' element={<MainLayout/>} >
                 <Route path="/" element={<Home />} />
+                <Route path="/about-us" element={<About />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/product" element={<Product />} />
                 <Route path="/product-details/:pid" element={<ProductDetails />} />
@@ -24,5 +29,8 @@ createRoot(document.getElementById('root')).render(
            </Route>
         </Routes>
      </BrowserRouter>
-  </StrictMode>,
+
+     
+   </MainContext>
+  
 )

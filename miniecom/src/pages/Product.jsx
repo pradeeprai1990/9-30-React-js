@@ -1,9 +1,10 @@
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router'
 import ResponsivePagination from 'react-responsive-pagination';
 import 'react-responsive-pagination/themes/classic.css';
-
+import { counterContext } from '../MainContext';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function Product() {
 
@@ -314,13 +315,45 @@ export default function Product() {
 
                 </div>
             </div>
+
+            <ToastContainer/>
         </div>
     )
 }
 
 function ProductItems({ pdata }) {
 
+    let {cart,setCart}=useContext(counterContext)
+
+    //cart=[]
+    //setCart Function
     let { id, name, image, price } = pdata
+
+    let addtoCart=()=>{
+       
+        let cartObj={
+            name,
+            id,
+            image,
+            price,
+            qty:1
+        }
+        setCart([...cart,cartObj])
+        toast.success("Your Item Seved in Cart !")
+    }
+
+    let removeCart=()=>{
+        if(confirm("Are you Sure Want to Delete Item in Cart")){
+           let finalData=cart.filter((items)=>items.id!=id)
+          
+           setCart(finalData)
+           toast.success("Your Item Deleted in Cart !")
+        }
+       
+    }
+
+    let checkmyProductinCart=cart.filter((items)=>items.id==id)
+//    console.log(checkmyProductinCart,id)
     return (
         <div className='shadow-xl'>
             <img src={image} alt="" />
@@ -329,6 +362,20 @@ function ProductItems({ pdata }) {
                     <h4 className='font-bold'>{name}</h4>
                     <h4 className='font-bold'>Rs {price}</h4>
                 </Link>
+                {   checkmyProductinCart.length==1
+                ?
+                <button onClick={removeCart}  className='p-2 cursor-pointer bg-red-400'>
+                   Remove Cart
+                </button>
+                :
+                <button onClick={addtoCart} className='p-2 cursor-pointer bg-green-400'>
+                Add to Cart
+                </button>
+                
+                
+                }
+                   
+               
             </div>
         </div>
     )
