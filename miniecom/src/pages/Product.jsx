@@ -342,6 +342,7 @@ function ProductItems({ pdata }) {
         toast.success("Your Item Seved in Cart !")
     }
 
+    
     let removeCart=()=>{
         if(confirm("Are you Sure Want to Delete Item in Cart")){
            let finalData=cart.filter((items)=>items.id!=id)

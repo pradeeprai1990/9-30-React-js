@@ -26,7 +26,7 @@ export default function Footer() {
                                     <li class="mb-4">
                                         <Link to={'/'}> Home {count}</Link>
                                     </li>
-                                    <li>
+                                    <li> 
                                           <Link to={'/about-us'}> About Us</Link>
                                     </li>
                                 </ul>

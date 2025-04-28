@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useContext, useRef } from 'react'
 import { counterContext } from '../MainContext'
 
+
 export default function Home() {
 
  let {count,setCount} =useContext(counterContext); //Object
@@ -16,7 +17,7 @@ export default function Home() {
 
   return (
     <div className='max-w-[1320px] mx-auto'>
-
+ 
         <button onClick={()=>setCount(count+1)} className='p-3 bg-red-400 cursor-pointer
         '>Change Count</button>
 
